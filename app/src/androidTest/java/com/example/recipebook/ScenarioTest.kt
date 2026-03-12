@@ -186,6 +186,73 @@ class ScenarioTest {
         activityScenarioRule.doWithRecreate(favoritePage::assertFavoriteEmptyState)
     }
 
+    @Test
+    fun search_recipe() {
+        get_recipes_at_start()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertLoadingState()
+            recipeListPage.assertRecipeEmptyListState()
+            recipeListPage.assertInputEmptyState()
+        }
+
+        recipeListPage.assertRecipeListState()
+        recipeListPage.assertRefreshState()
+
+        recipeListPage.assertRecipeListState()
+        recipeListPage.clickInputFiled()
+        recipeListPage.addInput(text = "cabb")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertInputSufficientFocusedState()
+            recipeListPage.assertSufficientSearchState()
+        }
+        recipeListPage.clickClearInput()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.InputEmptyState()
+        }
+        recipeListPage.addInput(text = "ca")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertInputSufficientFocusedState()
+        }
+        recipeListPage.addInput(text = "rrot")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertSufficientSearchState()
+        }
+        recipeListPage.clickFirstVariant()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListChanged()
+            recipeListPage.assertInputSufficientUnfocusedState()
+        }
+
+        recipeListPage.clickInputFiled()
+        recipeListPage.deleteLetters(4)
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertInputFocusedInsufficientState()
+        }
+
+        recipeListPage.addInput(text = "bbege")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertSufficientFocusedInputState()
+        }
+
+        recipeListPage.clickFirstVariant()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListChanged()
+            recipeListPage.assertInputSufficientUnfocusedState()
+        }
+
+        recipeListPage.clickInputFiled()
+        recipeListPage.addInput(text = " with")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertSufficientFocusedInputState()
+        }
+
+        recipeListPage.clickFirstVariant()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListChanged()
+            recipeListPage.assertInputSufficientUnfocusedState()
+        }
+    }
+
     private fun ActivityScenarioRule<*>.doWithRecreate(block: () -> Unit) {
         block.invoke()
         this.scenario.recreate()
