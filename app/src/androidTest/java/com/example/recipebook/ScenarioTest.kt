@@ -17,7 +17,7 @@ class ScenarioTest {
 
     lateinit var recipeListPage: RecipeListPage
     lateinit var detailPage: DetailPage
-    lateinit var favoritePage: FavoritePage //todo create test for FavoriteState
+    lateinit var favoritePage: FavoritePage
 
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
@@ -26,6 +26,7 @@ class ScenarioTest {
     fun setup() {
         recipeListPage = RecipeListPage(recipes = emptyList<Recipe>())
         detailPage = DetailPage(recipe = firstRecipe)
+        favoritePage = FavoritePage(recipes = emptyList<Recipe>())
     }
 
     @Test
@@ -181,6 +182,93 @@ class ScenarioTest {
         detailPage.clickBack()
         activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesEmptyState)
     }
+
+    @Test
+    fun add_favorites_recipe_delete_favorites_recipe(){
+        get_recipes_at_start()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertLoadingState()
+            recipeListPage.assertRecipeEmptyListState()
+            recipeListPage.assertInputEmptyState()
+        }
+
+        recipeListPage.clickFavoriteButton()
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertFavoriteEmptyState()
+        }
+
+        favoritePage.clickBackButton()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListState()
+            favoritePage.assertFavoriteEmptyState()
+        }
+
+        recipeListPage.clickLikeOnFirstRecipe()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListState()
+            favoritePage.assertFavoriteState()
+        }
+
+        recipeListPage.clickFavoriteButton()
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertFavoritesState(1)
+        }
+
+        favoritePage.clickFirstRecipe()
+        activityScenarioRule.doWithRecreate {
+            detailPage.assertDetailState()
+            detailPage.assertIngredientProgressState()
+            detailPage.assertIngredientSuccessState()
+            detailPage.assertRecipeSettingsStateLiked()
+        }
+
+        detailPage.clickUnLike()
+        activityScenarioRule.doWithRecreate {
+            detailPage.assertDetailState()
+            detailPage.assertIngredientSuccessState()
+            detailPage.assertRecipeSettingsStateUnliked()
+        }
+
+        detailPage.clickBack()
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertRecipeEmptyListState()
+        }
+
+        favoritePage.clickBack()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListState()
+            recipeListPage.assertFavoriteEmptyState()
+        }
+
+        recipeListPage.clickLikeOnRecipe(0)
+        recipeListPage.clickLikeOnRecipe(1)
+        recipeListPage.clickLikeOnRecipe(2)
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListState()
+            recipeListPage.assertFavoritesCount(3)
+        }
+
+        recipeListPage.clickUnLike(1)
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListState()
+            recipeListPage.assertFavoritesCount(2)
+        }
+        assertFirstRecipeIsLiked
+        recipeListPage.clickFavoriteButton()
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertFavoritesState(2)
+        }
+        favoritePage.clickUnLike(0)
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertFavoritesState(1)
+        }
+        favoritePage.clickBack()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListState()
+            recipeListPage.assertFavoritesCount(1)
+        }
+    }
+
 
     private fun ActivityScenarioRule<*>.doWithRecreate(block: () -> Unit) {
         block.invoke()
