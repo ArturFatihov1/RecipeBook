@@ -23,7 +23,7 @@ class ScenarioTest {
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Before
+    @Beforе
     fun setup() {
         recipeListPage = RecipeListPage(recipes = emptyList<Recipe>())
         detailPage = DetailPage(recipe = firstRecipe)
@@ -149,7 +149,7 @@ class ScenarioTest {
             detailPage.assertIngredientSuccessState()
         }
 
-        detailPage.clickOnLike() // Like
+        detailPage.clickOnLike()
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertRecipeSettingsStateLiked()
@@ -176,7 +176,7 @@ class ScenarioTest {
             detailPage.assertRecipeSettingsStateLiked()
         }
 
-        detailPage.clickOnLike() // unLike
+        detailPage.clickOnLike()
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertRecipeSettingsStateNotLiked()
