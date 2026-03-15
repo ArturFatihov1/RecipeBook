@@ -7,6 +7,7 @@ import com.example.recipebook.FakeRecipes.firstRecipe
 import com.example.recipebook.FakeRecipes.searchedRecipes
 import com.example.recipebook.FakeRecipes.secondPageRecipes
 import com.example.recipebook.FakeRecipes.thirdPageRecipes
+import com.example.recipebook.detail.DetailPage
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -148,7 +149,7 @@ class ScenarioTest {
             detailPage.assertIngredientSuccessState()
         }
 
-        detailPage.clickLike()
+        detailPage.clickOnLike() // Like
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertRecipeSettingsStateLiked()
@@ -158,7 +159,10 @@ class ScenarioTest {
         activityScenarioRule.doWithRecreate(recipeListPage::assertFirstRecipeIsLiked)
 
         recipeListPage.clickFavoriteButton()
-        activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesState)
+        favoritePage = FavoritePage(recipes = firstPageRecipes.take(1))
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertFavoritesState(1)
+        }
 
         favoritePage.clickFirstRecipe()
         activityScenarioRule.doWithRecreate {
@@ -172,14 +176,14 @@ class ScenarioTest {
             detailPage.assertRecipeSettingsStateLiked()
         }
 
-        detailPage.clickUnLike()
+        detailPage.clickOnLike() // unLike
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertRecipeSettingsStateNotLiked()
         }
 
         detailPage.clickBack()
-        activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesEmptyState)
+        activityScenarioRule.doWithRecreate(favoritePage::assertFavoriteEmptyState)
     }
 
     private fun ActivityScenarioRule<*>.doWithRecreate(block: () -> Unit) {
