@@ -183,7 +183,7 @@ class ScenarioTest {
         }
 
         detailPage.clickBack()
-        activityScenarioRule.doWithRecreate(favoritePage::assertFavoriteEmptyState)
+        activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesEmptyState)
     }
 
     @Test
