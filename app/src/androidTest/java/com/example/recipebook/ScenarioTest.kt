@@ -8,7 +8,6 @@ import com.example.recipebook.FakeRecipes.searchedRecipes
 import com.example.recipebook.FakeRecipes.secondPageRecipes
 import com.example.recipebook.FakeRecipes.thirdPageRecipes
 import com.example.recipebook.detail.DetailPage
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -184,7 +183,7 @@ class ScenarioTest {
         }
 
         detailPage.clickBack()
-        activityScenarioRule.doWithRecreate(favoritePage::assertFavoriteEmptyState)
+        activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesEmptyState)
     }
 
     @Test
@@ -280,7 +279,7 @@ class ScenarioTest {
         }
 
         favoritePage.clickFirstRecipe()
-        detailPage = DetailPage(recipeList.first())
+        detailPage = DetailPage(recipe = firstRecipe)
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertIngredientProgressState()
@@ -288,7 +287,7 @@ class ScenarioTest {
             detailPage.assertRecipeSettingsStateLiked()
         }
 
-        detailPage.clickUnLike()
+        detailPage.clickOnLike()
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertIngredientSuccessState()
