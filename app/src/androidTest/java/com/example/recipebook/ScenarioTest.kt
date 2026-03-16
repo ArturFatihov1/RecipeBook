@@ -221,7 +221,7 @@ class ScenarioTest {
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertIngredientSuccessState()
-            detailPage.assertRecipeSettingsStateUnliked()
+            detailPage.assertRecipeSettingsStateNotliked()
         }
 
         detailPage.clickBack()
@@ -249,6 +249,7 @@ class ScenarioTest {
             recipeListPage.assertFavoritesCount(2)
         }
 
+        favoritePage = FavoritePage(recipeList.take(2))
         recipeListPage.clickFavoriteButton()
         activityScenarioRule.doWithRecreate {
             favoritePage.assertFavoritesState(2)
