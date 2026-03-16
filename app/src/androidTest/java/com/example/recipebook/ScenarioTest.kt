@@ -180,11 +180,11 @@ class ScenarioTest {
         }
 
         detailPage.clickBack()
-        activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesEmptyState)
+        activityScenarioRule.doWithRecreate(favoritePage::assertFavoriteEmptyState)
     }
 
     @Test
-    fun add_favorites_recipe_delete_favorites_recipe() {
+    fun add_favorites_recipe_delete_favorites_recipe(){
         get_recipes_at_start()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertLoadingState()
@@ -197,7 +197,7 @@ class ScenarioTest {
             favoritePage.assertFavoritesEmptyState()
         }
 
-        favoritePage.clickBackButton()
+        favoritePage.clickBack()
         recipeListPage.clickLikeOnFirstRecipe()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertFavoritesState()
@@ -254,10 +254,12 @@ class ScenarioTest {
         activityScenarioRule.doWithRecreate {
             favoritePage.assertFavoritesState(2)
         }
+
         favoritePage.clickUnLike(0)
         activityScenarioRule.doWithRecreate {
             favoritePage.assertFavoritesState(1)
         }
+
         favoritePage.clickBack()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertRecipeListState()
