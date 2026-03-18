@@ -7,6 +7,7 @@ import com.example.recipebook.FakeRecipes.firstRecipe
 import com.example.recipebook.FakeRecipes.searchedRecipes
 import com.example.recipebook.FakeRecipes.secondPageRecipes
 import com.example.recipebook.FakeRecipes.thirdPageRecipes
+import com.example.recipebook.detail.DetailPage
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,7 +23,7 @@ class ScenarioTest {
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Before
+    @Beforе
     fun setup() {
         recipeListPage = RecipeListPage(recipes = emptyList<Recipe>())
         detailPage = DetailPage(recipe = firstRecipe)
@@ -149,7 +150,7 @@ class ScenarioTest {
             detailPage.assertIngredientSuccessState()
         }
 
-        detailPage.clickLike()
+        detailPage.clickOnLike()
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertRecipeSettingsStateLiked()
@@ -159,7 +160,10 @@ class ScenarioTest {
         activityScenarioRule.doWithRecreate(recipeListPage::assertFirstRecipeIsLiked)
 
         recipeListPage.clickFavoriteButton()
-        activityScenarioRule.doWithRecreate(favoritePage::assertFavoritesState)
+        favoritePage = FavoritePage(recipes = firstPageRecipes.take(1))
+        activityScenarioRule.doWithRecreate {
+            favoritePage.assertFavoritesState(1)
+        }
 
         favoritePage.clickFirstRecipe()
         activityScenarioRule.doWithRecreate {
@@ -173,7 +177,7 @@ class ScenarioTest {
             detailPage.assertRecipeSettingsStateLiked()
         }
 
-        detailPage.clickUnLike()
+        detailPage.clickOnLike()
         activityScenarioRule.doWithRecreate {
             detailPage.assertDetailState()
             detailPage.assertRecipeSettingsStateNotLiked()
@@ -181,6 +185,73 @@ class ScenarioTest {
 
         detailPage.clickBack()
         activityScenarioRule.doWithRecreate(favoritePage::assertFavoriteEmptyState)
+    }
+
+    @Test
+    fun search_recipe() {
+        get_recipes_at_start()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertLoadingState()
+            recipeListPage.assertRecipeEmptyListState()
+            recipeListPage.assertInputEmptyState()
+        }
+
+        recipeListPage.assertRecipeListState()
+        recipeListPage.assertRefreshState()
+
+        recipeListPage.assertRecipeListState()
+        recipeListPage.clickInputFiled()
+        recipeListPage.addInput(text = "cabb")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertInputSufficientFocusedState()
+            recipeListPage.assertSufficientSearchState()
+        }
+        recipeListPage.clickClearInput()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.InputEmptyState()
+        }
+        recipeListPage.addInput(text = "ca")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertInputSufficientFocusedState()
+        }
+        recipeListPage.addInput(text = "rrot")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertSufficientSearchState()
+        }
+        recipeListPage.clickFirstVariant()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListChanged()
+            recipeListPage.assertInputSufficientUnfocusedState()
+        }
+
+        recipeListPage.clickInputFiled()
+        recipeListPage.deleteLetters(4)
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertInputFocusedInsufficientState()
+        }
+
+        recipeListPage.addInput(text = "bbege")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertSufficientFocusedInputState()
+        }
+
+        recipeListPage.clickFirstVariant()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListChanged()
+            recipeListPage.assertInputSufficientUnfocusedState()
+        }
+
+        recipeListPage.clickInputFiled()
+        recipeListPage.addInput(text = " with")
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertSufficientFocusedInputState()
+        }
+
+        recipeListPage.clickFirstVariant()
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertRecipeListChanged()
+            recipeListPage.assertInputSufficientUnfocusedState()
+        }
     }
 
     @Test
@@ -232,7 +303,7 @@ class ScenarioTest {
         favoritePage.clickBack()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertRecipeListState()
-            recipeListPage.assertFavoriteEmptyState()
+            recipeListPage.assertFavoritesEmptyState()
         }
 
         recipeListPage.clickLikeOnRecipe(0)
