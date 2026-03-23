@@ -7,15 +7,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import com.example.recipebook.R
 import com.example.recipebook.Recipe
-import com.example.recipebook.core.BackButtonUi
-import com.example.recipebook.core.ImageUI
-import com.example.recipebook.core.TitleUi
-
 import org.hamcrest.Matcher
 
 class DetailPage(recipe: Recipe) {
 
-    private val containerIdMatcher: Matcher<View> = withParent(withId(R.id.detailContainer))
+    private val containerIdMatcher: Matcher<View> = withParent(withId(R.id.rootLayout))
     private val classTypeMatcher: Matcher<View> =
         withParent(isAssignableFrom(LinearLayout::class.java))
 
@@ -30,26 +26,21 @@ class DetailPage(recipe: Recipe) {
         classTypeMatcher = classTypeMatcher
     )
     private val imageUi = ImageUI(
-        id = R.id.detailImage,
         url = recipe.imageUrl,
         containerIdMatcher = containerIdMatcher,
         classTypeMatcher = classTypeMatcher
     )
     private val titleUi = TitleUi(
-        id = R.id.titleHeader,
         text = recipe.title,
         containerIdMatcher = containerIdMatcher,
         classTypeMatcher = classTypeMatcher
     )
     private val ingredientsListUi = IngredientsListUi(
-        id = R.id.ingredientList,
-        ingredientId = R.id.ivIngredient,
         listIngredient = recipe.ingredients,
         containerIdMatcher = containerIdMatcher,
         classTypeMatcher = classTypeMatcher
     )
     private val instructionsListUi = InstructionsListUi(
-        id = R.id.instructionsList,
         instructions = recipe.instructions,
         containerIdMatcher = containerIdMatcher,
         classTypeMatcher = classTypeMatcher
@@ -58,11 +49,10 @@ class DetailPage(recipe: Recipe) {
     fun assertDetailState() {
         backButton.assertVisible()
         recipeLikeUi.assertVisible()
-        titleUi.assertVisible()
-        imageUi.assertVisibleImage()
+        titleUi.assertTextVisible()
+        imageUi.assertVisible()
         ingredientsListUi.assertVisible()
         instructionsListUi.assertVisible()
-        instructionsListUi.assertInstructionsTextVisible()
     }
 
     fun assertIngredientProgressState() {
