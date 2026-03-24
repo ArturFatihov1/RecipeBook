@@ -4,9 +4,11 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.recipebook.FakeRecipes.firstPageRecipes
 import com.example.recipebook.FakeRecipes.firstRecipe
+import com.example.recipebook.FakeRecipes.recipeTakeTwo
 import com.example.recipebook.FakeRecipes.searchedRecipes
 import com.example.recipebook.FakeRecipes.secondPageRecipes
 import com.example.recipebook.FakeRecipes.thirdPageRecipes
+import com.example.recipebook.core.favorite.FavoritePage
 import com.example.recipebook.detail.DetailPage
 import org.junit.Before
 import org.junit.Rule
@@ -18,12 +20,12 @@ class ScenarioTest {
 
     lateinit var recipeListPage: RecipeListPage
     lateinit var detailPage: DetailPage
-    lateinit var favoritePage: FavoritePage //todo create test for FavoriteState
+    lateinit var favoritePage: FavoritePage
 
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @Beforе
+    @Before
     fun setup() {
         recipeListPage = RecipeListPage(recipes = emptyList<Recipe>())
         detailPage = DetailPage(recipe = firstRecipe)
@@ -300,7 +302,7 @@ class ScenarioTest {
         favoritePage.clickBack()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertRecipeListState()
-            recipeListPage.assertFavoriteEmptyState()
+            recipeListPage.assertFavoritesEmptyState()
         }
 
         recipeListPage.clickLikeOnRecipe(0)
@@ -317,7 +319,7 @@ class ScenarioTest {
             recipeListPage.assertFavoritesCount(2)
         }
 
-        favoritePage = FavoritePage(recipeList.take(2))
+        favoritePage = FavoritePage(recipeTakeTwo)
         recipeListPage.clickFavoriteButton()
         activityScenarioRule.doWithRecreate {
             favoritePage.assertFavoritesState(2)

@@ -494,6 +494,8 @@ internal object FakeRecipes {
     val thirdPageRecipes = recipes.drop(10).take(5)
     val firstRecipe = recipes.first()
 
+    val recipeTakeTwo = recipes.take(2)
+
     fun searchedRecipes(query: String) = recipes.filter { recipe ->
         recipe.title.contains(query, ignoreCase = true)
     }
