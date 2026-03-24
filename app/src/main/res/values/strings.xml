@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RecipeBook</string>
+    <string name="empty_favorites">No favorite recipes yet</string>
 </resources>
