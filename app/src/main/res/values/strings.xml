@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RecipeBook</string>
+    <string name="liked_recipes">Liked Recipes</string>
+    <string name="recipe_info">%d ingredients - %d min</string>
 </resources>

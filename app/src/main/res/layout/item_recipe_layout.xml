@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ingredientFullItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_card16dp"
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="@dimen/_6dp"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        app:cardCornerRadius="@dimen/card_12dp"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:id="@+id/detailImageShortCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_recipe" />
+
+        <ImageButton
+            android:id="@+id/recipeLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_card16dp"
+            android:layout_marginEnd="@dimen/_card16dp"
+            android:background="@drawable/ic_like_unselected"
+            android:clickable="true" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_card16dp"
+        android:background="@color/gray_card_description"
+        app:cardCornerRadius="@dimen/card_12dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_card16dp"
+            android:layout_marginVertical="@dimen/_6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/headerShortCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_testSize16sp"
+                android:textStyle="bold"
+                tools:text="Header" />
+
+            <TextView
+                android:id="@+id/textShortCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_testSize16sp"
+                android:textStyle="bold"
+                tools:text="@string/recipe_info" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

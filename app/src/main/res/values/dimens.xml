@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="_layout16dp">16dp</dimen>
+    <dimen name="_rv8dp">8dp</dimen>
+    <dimen name="_6dp">6dp</dimen>
+    <dimen name="_text16dp">16dp</dimen>
+    <dimen name="_card16dp">16dp</dimen>
+    <dimen name="_testSize16sp">16sp</dimen>
+    <dimen name="_textSize12sp">12sp</dimen>
+    <dimen name="card_12dp">12dp</dimen>
+</resources>
