@@ -9,22 +9,21 @@ import com.example.recipebook.R
 import com.example.recipebook.Recipe
 import org.hamcrest.Matcher
 
-class RecipeListPage(recipes: List<Recipe>) {
-    private val containerIdMatcher: Matcher<View> = withParent(withId(R.id.recipeListLayout))
+class RecipeListPage(
+    recipes: List<Recipe>,
+) {
+    private val containerId: Int = R.id.recipeListLayout
+    private val containerIdMatcher: Matcher<View> = withParent(withId(containerId))
     private val classTypeMatcher: Matcher<View> = withParent(isAssignableFrom(LinearLayout::class.java))
 
-    private val favoriteButtonUi = ButtonUi(
-        id = R.id.recipeLike,
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
-    )
+    private val favoritesButtonUi = FavoritesButtonUi(containerId = containerId)
 
     private val searchFieldUi = InputUi()
 
-    private val recipeListUi = ScrollableListUi(
+    private val recipeListUi = RecipeListUi(
         items = recipes,
         containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
+        classTypeMatcher = classTypeMatcher,
     )
 
     private val loadingDialogUi = LoadingDialogUi(
@@ -46,11 +45,15 @@ class RecipeListPage(recipes: List<Recipe>) {
     }
 
     fun clickFavoriteButton() {
-        favoriteButtonUi.click()
+        favoritesButtonUi.click()
     }
 
     fun clickLikeOnRecipe(recipeId: Int) {
-        recipeListUi.clickLikeOnRecipe(recipeId = recipeId)
+        recipeListUi.toggleLikeRecipe(position = recipeId)
+    }
+
+    fun clickUnLikeOnRecipe(recipeId: Int) {
+        recipeListUi.toggleLikeRecipe(position = recipeId)
     }
 
     fun refreshRecipes() {
@@ -59,10 +62,6 @@ class RecipeListPage(recipes: List<Recipe>) {
 
     fun scrollToNextPage() {
         recipeListUi.scrollToNextPage()
-    }
-
-    fun clickUnLike(recipeId: Int) {
-        recipeListUi.clickUnLike(recipeId = recipeId)
     }
 
     fun waitForRecipesListUpdate() {
@@ -142,18 +141,23 @@ class RecipeListPage(recipes: List<Recipe>) {
     }
 
     fun assertErrorDialogState() {
-        errorDialogUi.assertErrorDialogState()
+        errorDialogUi.assertVisible()
     }
 
     fun assertFirstRecipeIsLiked() {
-        recipeListUi.assertFirstRecipeIsLiked()
+        recipeListUi.assertRecipeIsLiked(0)
     }
 
-    fun assertFavoritesEmptyState() {
-        recipeListUi.assertFavoritesEmptyState()
+    fun assertUnLikedRecipe(position: Int) {
+        recipeListUi.assertRecipeIsUnLiked(position)
     }
 
-    fun assertFavoritesCount(numberOfFavorites: Int) {
-        recipeListUi.assertFavoritesCount(numberOfFavorites = numberOfFavorites)
+    fun assertRecipesAreFavorite(vararg positions: Int) {
+        recipeListUi.assertFavoritesCount(positions = positions)
+    }
+
+    fun assertErrorDialogNotVisible() {
+        loadingDialogUi.assertVisible()
+        errorDialogUi.asserDoesNotExist()
     }
 }
