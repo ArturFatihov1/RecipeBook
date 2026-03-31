@@ -27,14 +27,9 @@ class FavoriteViewModelTest {
 
     @Test
     fun load_favorites() {
-        viewModel.init()
+        viewModel.load()
         var actual: FavoriteUiState = observable.postUiStateCalledList.last()
         var expected: FavoriteUiState = FavoriteUiState.Empty
-        assertEquals(expected, actual)
-
-        viewModel.load()
-        actual = observable.postUiStateCalledList.last()
-        expected = FavoriteUiState.Empty
         assertEquals(expected, actual)
 
         runAsync.returnResult()
@@ -47,11 +42,6 @@ class FavoriteViewModelTest {
     fun like_recipe() {
         val recipe = FavoriteRecipe(id = "53322", title = "Flan")
 
-        viewModel.init()
-        var actual: FavoriteUiState = observable.postUiStateCalledList.last()
-        var expected: FavoriteUiState = FavoriteUiState.Empty
-        assertEquals(expected, actual)
-
         viewModel.like(recipe)
         runAsync.returnResult()
         repository.assertSaved(recipe)
@@ -59,19 +49,14 @@ class FavoriteViewModelTest {
         viewModel.load()
         runAsync.returnResult()
 
-        actual = observable.postUiStateCalledList.last()
-        expected = FavoriteUiState.Content(favorites = listOf(recipe))
+        val actual = observable.postUiStateCalledList.last()
+        val expected = FavoriteUiState.Content(favorites = listOf(recipe))
         assertEquals(expected, actual)
     }
 
     @Test
     fun unLike_recipe() {
         val recipe = FavoriteRecipe(id = "53322", title = "Flan")
-
-        viewModel.init()
-        var actual: FavoriteUiState = observable.postUiStateCalledList.last()
-        var expected: FavoriteUiState = FavoriteUiState.Empty
-        assertEquals(expected, actual)
 
         viewModel.like(recipe)
         runAsync.returnResult()
@@ -83,8 +68,8 @@ class FavoriteViewModelTest {
         viewModel.load()
         runAsync.returnResult()
 
-        actual = observable.postUiStateCalledList.last()
-        expected = FavoriteUiState.Content(favorites = listOf<FavoriteRecipe>())
+        val actual = observable.postUiStateCalledList.last()
+        val expected = FavoriteUiState.Content(favorites = listOf<FavoriteRecipe>())
         assertEquals(expected, actual)
     }
 }
