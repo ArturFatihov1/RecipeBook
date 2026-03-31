@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_rv8dp"
         android:nestedScrollingEnabled="false"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_recipe_layout" />
 </LinearLayout>
