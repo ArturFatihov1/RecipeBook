@@ -15,14 +15,15 @@ import org.hamcrest.Matcher
 
 class DetailPage(recipe: Recipe) {
 
-    private val containerIdMatcher: Matcher<View> = withParent(withId(R.id.detailContainer))
+    private val containerId: Int = R.id.detailContainer
+    private val containerIdMatcher: Matcher<View> = withParent(withId(containerId))
     private val classTypeMatcher: Matcher<View> =
         withParent(isAssignableFrom(LinearLayout::class.java))
 
     private val backButton = BackButtonUi(
-        id = R.id.backButton,
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
+        viewId = R.id.backButton,
+        parentId = R.id.detailHeader,
+        containerId = containerId
     )
     private val recipeLikeUi = RecipeLikeUi(
         id = R.id.recipeLike,
@@ -36,10 +37,10 @@ class DetailPage(recipe: Recipe) {
         classTypeMatcher = classTypeMatcher
     )
     private val titleUi = TitleUi(
-        id = R.id.titleHeader,
+        viewId = R.id.titleHeader,
+        parentId = R.id.detailHeader,
+        containerId = containerId,
         text = recipe.title,
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
     )
     private val ingredientsListUi = IngredientsListUi(
         id = R.id.ingredientList,
@@ -59,7 +60,7 @@ class DetailPage(recipe: Recipe) {
         backButton.assertVisible()
         recipeLikeUi.assertVisible()
         titleUi.assertVisible()
-        imageUi.assertVisibleImage()
+        imageUi.assertVisible()
         ingredientsListUi.assertVisible()
         instructionsListUi.assertVisible()
         instructionsListUi.assertInstructionsTextVisible()

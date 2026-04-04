@@ -19,7 +19,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.util.HumanReadables
 import com.example.recipebook.R
 import com.example.recipebook.Recipe
-import com.example.recipebook.base.AbstractUi
+import com.example.recipebook.core.AbstractUi
 import com.example.recipebook.core.matchers.hasItemCount
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf

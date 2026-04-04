@@ -1,4 +1,4 @@
-package com.example.recipebook.base
+package com.example.recipebook.core
 
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions

@@ -9,18 +9,16 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.recipebook.R
-import com.example.recipebook.Recipe
 import com.example.recipebook.core.matchers.clickItemAtPosition
 import com.example.recipebook.core.matchers.hasItemCount
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 
 class ScrollableListUi(
-    private val id: Int,
-    private val items: List<Recipe>,
+    id: Int,
     containerIdMatcher: Matcher<View>,
     classTypeMatcher: Matcher<View>
-) : AbstractVisibility(
+) : AbstractUi(
     interaction = onView(
         allOf(
             withId(id),

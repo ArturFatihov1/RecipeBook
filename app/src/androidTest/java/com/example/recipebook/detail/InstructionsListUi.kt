@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.example.recipebook.core.AbstractVisibility
+import com.example.recipebook.core.AbstractUi
 import com.example.recipebook.core.matchers.hasItemCount
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -18,7 +18,7 @@ class InstructionsListUi(
     private val instructions: List<String>,
     containerIdMatcher: Matcher<View>,
     classTypeMatcher: Matcher<View>
-) : AbstractVisibility(
+) : AbstractUi(
     interaction = onView(
         allOf(
             withId(id),
