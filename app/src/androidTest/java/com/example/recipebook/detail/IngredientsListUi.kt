@@ -83,4 +83,8 @@ class IngredientsListUi(
         }
         onView(withId(id)).check(matches(hasItemCount(listIngredient.size)))
     }
+
+    fun assertIngredientsCount() {
+        interaction.check(matches(hasItemCount(listIngredient.size)))
+    }
 }
