@@ -41,7 +41,10 @@ class ScenarioTest {
         activityScenarioRule.doWithRecreate { recipeListPage.assertErrorDialogState() }
 
         recipeListPage.clickConfirmErrorButton()
-        activityScenarioRule.doWithRecreate { recipeListPage.assertRecipeEmptyListState() }
+        activityScenarioRule.doWithRecreate {
+            recipeListPage.assertErrorDialogNotVisible()
+            recipeListPage.assertRecipeEmptyListState()
+        }
 
         recipeListPage.refreshRecipes()
         activityScenarioRule.doWithRecreate { recipeListPage.assertRefreshState() }
@@ -316,7 +319,7 @@ class ScenarioTest {
         favoritePage.clickBack()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertRecipeListState()
-            recipeListPage.assertFavoritesEmptyState()
+            recipeListPage.assertUnLikedRecipe(0)
         }
 
         recipeListPage.clickLikeOnRecipe(0)
@@ -324,13 +327,13 @@ class ScenarioTest {
         recipeListPage.clickLikeOnRecipe(2)
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertRecipeListState()
-            recipeListPage.assertFavoritesCount(3)
+            recipeListPage.assertRecipesAreFavorite(0, 1, 2)
         }
 
-        recipeListPage.clickUnLike(1)
+        recipeListPage.clickUnLikeOnRecipe(1)
         activityScenarioRule.doWithRecreate {
-            recipeListPage.assertRecipeListState()
-            recipeListPage.assertFavoritesCount(2)
+            recipeListPage.assertUnLikedRecipe(1)
+            recipeListPage.assertRecipesAreFavorite(0, 2)
         }
 
         favoritePage = FavoritePage(recipeTakeTwo)
@@ -347,7 +350,7 @@ class ScenarioTest {
         favoritePage.clickBack()
         activityScenarioRule.doWithRecreate {
             recipeListPage.assertRecipeListState()
-            recipeListPage.assertFavoritesCount(1)
+            recipeListPage.assertRecipesAreFavorite(1)
         }
     }
 
