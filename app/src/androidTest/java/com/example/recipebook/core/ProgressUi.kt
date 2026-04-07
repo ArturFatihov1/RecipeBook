@@ -14,7 +14,7 @@ class ProgressUi(
     private val id: Int,
     containerIdMatcher: Matcher<View>,
     classTypeMatcher: Matcher<View>,
-) : AbstractVisibility(
+) : AbstractUi(
     interaction = onView(
         allOf(
             withId(id),

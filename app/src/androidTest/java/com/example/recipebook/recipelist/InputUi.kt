@@ -22,7 +22,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.recipebook.R
-import com.example.recipebook.base.AbstractButton
+import com.example.recipebook.core.AbstractButton
 import com.example.recipebook.recipelist.matchers.GreaterOrEqualLengthMatcher
 import com.example.recipebook.recipelist.matchers.HasNoEndIconMatcher
 import com.example.recipebook.recipelist.matchers.HasVisibleEndIconMatcher

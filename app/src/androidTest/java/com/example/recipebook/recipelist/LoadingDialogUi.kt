@@ -9,7 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.example.recipebook.base.AbstractUi
+import com.example.recipebook.core.AbstractUi
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 

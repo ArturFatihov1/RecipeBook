@@ -1,31 +1,27 @@
 package com.example.recipebook.core
 
-import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
-import com.example.recipebook.R
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.Matcher
 
 class BackButtonUi(
-    id: Int,
-    containerIdMatcher: Matcher<View>,
-    classTypeMatcher: Matcher<View>
-) : AbstractVisibility(
+    viewId: Int,
+    parentId: Int,
+    containerId: Int,
+) : AbstractButton(
     interaction = onView(
         allOf(
-            withId(id),
+            withId(viewId),
+            withParent(withId(parentId)),
+            withParent(isAssignableFrom(LinearLayout::class.java)),
             isAssignableFrom(ImageButton::class.java),
-            withParent(withId(R.id.detailHeader)),
-            classTypeMatcher
+            isDescendantOfA(withId(containerId)),
+            isDescendantOfA(isAssignableFrom(LinearLayout::class.java)),
         )
     )
-) {
-    fun click() {
-        interaction.perform(ViewActions.click())
-    }
-}
+)

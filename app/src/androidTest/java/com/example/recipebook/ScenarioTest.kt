@@ -8,8 +8,8 @@ import com.example.recipebook.FakeRecipes.recipeTakeTwo
 import com.example.recipebook.FakeRecipes.searchedRecipes
 import com.example.recipebook.FakeRecipes.secondPageRecipes
 import com.example.recipebook.FakeRecipes.thirdPageRecipes
-import com.example.recipebook.favorite.FavoritePage
 import com.example.recipebook.detail.DetailPage
+import com.example.recipebook.favorite.FavoritePage
 import com.example.recipebook.recipelist.RecipeListPage
 import org.junit.Before
 import org.junit.Rule

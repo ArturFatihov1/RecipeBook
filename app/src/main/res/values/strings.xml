@@ -3,4 +3,6 @@
     <string name="ingredients">Ingredients</string>
     <string name="cooking_instructions">Cooking instructions</string>
     <string name="empty_favorites">No favorite recipes yet</string>
+    <string name="liked_recipes">Liked Recipes</string>
+    <string name="recipe_info">%d ingredients - %d min</string>
 </resources>

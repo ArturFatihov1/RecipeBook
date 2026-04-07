@@ -11,7 +11,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.recipebook.Ingredient
 import com.example.recipebook.R
-import com.example.recipebook.core.AbstractVisibility
+import com.example.recipebook.core.AbstractUi
+import com.example.recipebook.core.ImageUI
 import com.example.recipebook.core.ProgressUi
 import com.example.recipebook.core.matchers.hasItemCount
 import org.hamcrest.CoreMatchers.allOf
@@ -23,7 +24,7 @@ class IngredientsListUi(
     ingredientId: Int,
     containerIdMatcher: Matcher<View>,
     classTypeMatcher: Matcher<View>
-) : AbstractVisibility(
+) : AbstractUi(
     interaction = onView(
         allOf(
             withId(id),
@@ -40,13 +41,15 @@ class IngredientsListUi(
         containerIdMatcher = containerIdMatcherItem,
         classTypeMatcher = classTypeMatcher
     )
-    private val errorUi = ErrorDetailUi(
+    private val errorUi = ImageUI(
         ingredientId,
+        "https://www.themealdb.com/images/errorIngredient",
         containerIdMatcher = containerIdMatcherItem,
         classTypeMatcher = classTypeMatcher
     )
-    private val successUi = SuccessDetailUi(
+    private val successUi = ImageUI(
         ingredientId,
+        "www.themealdb.com/images/ingredients/lime.png", // todo replace it with a list ingredient URLs
         containerIdMatcher = containerIdMatcherItem,
         classTypeMatcher = classTypeMatcher
     )
@@ -54,22 +57,22 @@ class IngredientsListUi(
     fun assertProgressUi() {
         assertIngredientsDisplayed()
         progressUi.assertVisible()
-        errorUi.assertNotVisibleImage()
-        successUi.assertNotVisibleImage()
+        errorUi.assertNotVisible()
+        successUi.assertNotVisible()
     }
 
     fun assertErrorUi() {
         assertIngredientsDisplayed()
         progressUi.assertNotVisible()
-        errorUi.assertVisibleImage()
-        successUi.assertNotVisibleImage()
+        errorUi.assertVisible()
+        successUi.assertNotVisible()
     }
 
     fun assertSuccessUi() {
         assertIngredientsDisplayed()
         progressUi.assertNotVisible()
-        errorUi.assertNotVisibleImage()
-        successUi.assertVisibleImage()
+        errorUi.assertNotVisible()
+        successUi.assertVisible()
     }
 
     fun waitTillVisible() {

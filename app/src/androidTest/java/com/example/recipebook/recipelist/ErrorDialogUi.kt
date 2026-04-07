@@ -11,7 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.example.recipebook.base.AbstractUi
+import com.example.recipebook.core.AbstractUi
 import com.example.recipebook.core.matchers.waitTillDisplayed
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf

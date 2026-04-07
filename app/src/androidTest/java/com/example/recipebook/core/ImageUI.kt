@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
+import com.example.recipebook.core.matchers.ImageViewUrlMatcher
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 
@@ -15,14 +16,15 @@ class ImageUI(
     url: String,
     containerIdMatcher: Matcher<View>,
     classTypeMatcher: Matcher<View>
-) : AbstractVisibilityImage(
+) : AbstractUi(
     interaction = onView(
         allOf(
             withId(id),
             isAssignableFrom(ImageView::class.java),
             containerIdMatcher,
-            withParent(isAssignableFrom(FrameLayout::class.java))
+            classTypeMatcher,
+            withParent(isAssignableFrom(FrameLayout::class.java)),
+            ImageViewUrlMatcher(url)
         )
-    ),
-    url = url
+    )
 )

@@ -17,21 +17,21 @@ import org.hamcrest.Matcher
 
 class FavoritePage(recipes: List<Recipe>) {
 
-    private val containerIdMatcher: Matcher<View> = withParent(withId(R.id.favoriteContainer))
+    private val containerId: Int = R.id.favoriteContainer
+    private val containerIdMatcher: Matcher<View> = withParent(withId(containerId))
     private val classTypeMatcher: Matcher<View> =
         withParent(isAssignableFrom(LinearLayout::class.java))
 
     private val firstRecipe = recipes.first()
 
     private val backButton = BackButtonUi(
-        id = R.id.backButton,
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
+        viewId = R.id.backButton,
+        parentId = R.id.favoriteHeader,
+        containerId = containerId,
     )
 
     private val recipeListUi = ScrollableListUi(
         id = R.id.scrList,
-        items = recipes,
         containerIdMatcher = containerIdMatcher,
         classTypeMatcher = classTypeMatcher,
     )
@@ -52,11 +52,10 @@ class FavoritePage(recipes: List<Recipe>) {
     )
 
     private val titleUi = TitleUi(
-        id = R.id.titleHeader,
+        viewId = R.id.titleHeader,
+        parentId = R.id.favoriteHeader,
+        containerId = containerId,
         text = firstRecipe.title,
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
-
     )
 
     private val ingredientsListUi = IngredientsListUi(
@@ -69,7 +68,7 @@ class FavoritePage(recipes: List<Recipe>) {
 
     fun assertFavoritesState(count: Int) {
         backButton.assertVisible()
-        imageUi.assertVisibleImage()
+        imageUi.assertVisible()
         recipeLikeUi.isLiked()
         titleUi.assertVisible()
         ingredientsListUi.assertIngredientsCount()
