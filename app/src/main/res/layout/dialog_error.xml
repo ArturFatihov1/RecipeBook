@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/errorDialogView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="@dimen/_layout16dp">
+
+    <TextView
+        android:id="@+id/errorTitle"
+        style="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/error_title"
+        android:textColor="@color/error_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/errorBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_layout16dp"
+        android:text="@string/internet_connection_failed"
+        android:textColor="@color/error_color"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/errorTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/confirmErrorButton"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:textColor="@color/white"
+        style="@style/TextAppearance.Material3.LabelLarge"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/errorBody" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

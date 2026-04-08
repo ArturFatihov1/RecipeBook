@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.RecipeBook" parent="Base.Theme.RecipeBook" />
+
+    <style name="RoundedSearchField">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
 </resources>
