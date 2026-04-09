@@ -1,7 +1,11 @@
 package com.example.recipebook.favorite
 
-import com.example.recipebook.FakeRunAsync
-import com.example.recipebook.FakeUiObservable
+import com.example.recipebook.detail.core.FakeRunAsync
+import com.example.recipebook.detail.core.FakeUiObservable
+import com.example.recipebook.detail.data.Recipe
+import com.example.recipebook.favorite.data.FavoriteRepository
+import com.example.recipebook.favorite.presentation.FavoriteUiObservable
+import com.example.recipebook.favorite.presentation.FavoriteViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -34,13 +38,20 @@ class FavoriteViewModelTest {
 
         runAsync.returnResult()
         actual = observable.postUiStateCalledList.last()
-        expected = FavoriteUiState.Content(favorites = listOf<FavoriteRecipe>())
+        expected = FavoriteUiState.FavoriteState(favorites = listOf())
         assertEquals(expected, actual)
     }
 
     @Test
     fun like_recipe() {
-        val recipe = FavoriteRecipe(id = "53322", title = "Flan")
+        val recipe = Recipe(
+            id = "53322",
+            title = "Flan",
+            imageUrl = "",
+            ingredients = emptyList(),
+            instructions = emptyList(),
+            isLiked = true
+        )
 
         viewModel.like(recipe)
         runAsync.returnResult()
@@ -50,13 +61,20 @@ class FavoriteViewModelTest {
         runAsync.returnResult()
 
         val actual = observable.postUiStateCalledList.last()
-        val expected = FavoriteUiState.Content(favorites = listOf(recipe))
+        val expected = FavoriteUiState.FavoriteState(favorites = listOf(recipe))
         assertEquals(expected, actual)
     }
 
     @Test
     fun unLike_recipe() {
-        val recipe = FavoriteRecipe(id = "53322", title = "Flan")
+        val recipe = Recipe(
+            id = "53322",
+            title = "Flan",
+            imageUrl = "",
+            ingredients = emptyList(),
+            instructions = emptyList(),
+            isLiked = true
+        )
 
         viewModel.like(recipe)
         runAsync.returnResult()
@@ -69,19 +87,23 @@ class FavoriteViewModelTest {
         runAsync.returnResult()
 
         val actual = observable.postUiStateCalledList.last()
-        val expected = FavoriteUiState.Content(favorites = listOf<FavoriteRecipe>())
+        val expected = FavoriteUiState.FavoriteState(favorites = listOf())
         assertEquals(expected, actual)
     }
 }
 
 private class FakeRepository : FavoriteRepository {
-    private val favorites = linkedMapOf<String, FavoriteRecipe>()
+    private val favorites = linkedMapOf<String, Recipe>()
 
-    override suspend fun loadFavorites(): List<FavoriteRecipe> = favorites.values.toList()
+    override suspend fun loadFavorites(): List<Recipe> =
+        favorites.values.sortedWith(
+            compareByDescending<Recipe> { it.isLiked }.thenBy { it.title }
+        )
 
-    override suspend fun like(recipe: FavoriteRecipe) {
-        favorites[recipe.id] = recipe
-        saved = recipe
+    override suspend fun like(recipe: Recipe) {
+        val stored = recipe.copy(isLiked = true)
+        favorites[recipe.id] = stored
+        saved = stored
     }
 
     override suspend fun unLike(recipeId: String) {
@@ -89,10 +111,10 @@ private class FakeRepository : FavoriteRepository {
         removedId = recipeId
     }
 
-    private var saved: FavoriteRecipe? = null
+    private var saved: Recipe? = null
     private var removedId: String? = null
 
-    fun assertSaved(expected: FavoriteRecipe) {
+    fun assertSaved(expected: Recipe) {
         assertEquals(expected, saved)
     }
 
@@ -106,4 +128,3 @@ private interface FakeFavoriteUiObservable :
     FavoriteUiObservable {
     class Base : FakeUiObservable.Abstract<FavoriteUiState>(), FakeFavoriteUiObservable
 }
-
