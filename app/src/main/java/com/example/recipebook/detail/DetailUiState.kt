@@ -1,5 +1,7 @@
 package com.example.recipebook.detail
 
+import com.example.recipebook.core.LikeToggleUiState
+import com.example.recipebook.core.UpdateLike
 import java.io.Serializable
 
 interface DetailUiState : Serializable {
@@ -82,7 +84,7 @@ interface DetailUiState : Serializable {
             ingredientList: UpdateIngredientList,
             instructionItemView: UpdateInstructionItem
         ) {
-            likeButton.update(isLiked = true)
+            LikeToggleUiState.Liked.applyTo(likeButton)
         }
     }
 
@@ -94,7 +96,7 @@ interface DetailUiState : Serializable {
             ingredientList: UpdateIngredientList,
             instructionItemView: UpdateInstructionItem
         ) {
-            likeButton.update(isLiked = false)
+            LikeToggleUiState.UnLiked.applyTo(likeButton)
         }
     }
 }
