@@ -1,23 +1,18 @@
-package com.example.recipebook.detail.core
+package com.example.recipebook.core
 
-import com.example.recipebook.core.UiObservable
+interface UiObservable<T : Any> {
+    fun register(observer: (T) -> Unit)
 
-interface FakeUiObservable<T : Any> : UiObservable<T> {
-    var registerCalledCount: Int
-    var unregisterCalledCount: Int
-    val postUiStateCalledList: MutableList<T>
+    fun unregister()
 
-    abstract class Abstract<T : Any> : FakeUiObservable<T> {
+    fun postUiState(uiState: T)
+
+    abstract class Abstract<T : Any> : UiObservable<T> {
 
         private var uiStateCached: T? = null
         private var observerCached: ((T) -> Unit)? = null
 
-        override var registerCalledCount: Int = 0
-        override var unregisterCalledCount: Int = 0
-        override val postUiStateCalledList: MutableList<T> = mutableListOf()
-
         override fun register(observer: (T) -> Unit) {
-            registerCalledCount++
             observerCached = observer
             if (uiStateCached != null) {
                 observerCached!!.invoke(uiStateCached!!)
@@ -26,12 +21,10 @@ interface FakeUiObservable<T : Any> : UiObservable<T> {
         }
 
         override fun unregister() {
-            unregisterCalledCount++
             observerCached = null
         }
 
         override fun postUiState(uiState: T) {
-            postUiStateCalledList.add(uiState)
             if (observerCached == null) {
                 uiStateCached = uiState
             } else {
