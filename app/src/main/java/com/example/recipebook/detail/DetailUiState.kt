@@ -9,68 +9,66 @@ interface DetailUiState : Serializable {
         headerTextView: UpdateText,
         imageView: UpdateImage,
         ingredientList: UpdateIngredientList,
-        instructionItemView: UpdateInstructionItem
+        instructionList: UpdateInstructionList
     ) = Unit
 
     data class Initial(
-        private val title: String,
-        private val imageUrl: String,
-        private val isLiked: Boolean,
-        private val instructions: List<String>
+        val title: String,
+        val imageUrl: String,
+        val ingredients: List<IngredientUiState.Initial>,
+        val instructions: List<String>,
+        val isLiked: Boolean
     ) : DetailUiState {
         override fun update(
             likeButton: UpdateLike,
             headerTextView: UpdateText,
             imageView: UpdateImage,
             ingredientList: UpdateIngredientList,
-            instructionItemView: UpdateInstructionItem
+            instructionList: UpdateInstructionList
         ) {
             headerTextView.update(title)
             imageView.showImage(imageUrl)
             likeButton.update(isLiked)
-            instructionItemView.update(instructions)
+            ingredientList.update(ingredients)
+            instructionList.update(instructions)
         }
     }
 
-    data class IngredientProgressState(
-        private val ingredients: List<IngredientUiState>
-    ) : DetailUiState {
+    object IngredientProgressState : DetailUiState {
         override fun update(
             likeButton: UpdateLike,
             headerTextView: UpdateText,
             imageView: UpdateImage,
             ingredientList: UpdateIngredientList,
-            instructionItemView: UpdateInstructionItem
+            instructionList: UpdateInstructionList
         ) {
-            ingredientList.update(ingredients)
-        }
-    }
-
-    data class IngredientErrorState(
-        private val ingredients: List<IngredientUiState>
-    ) : DetailUiState {
-        override fun update(
-            likeButton: UpdateLike,
-            headerTextView: UpdateText,
-            imageView: UpdateImage,
-            ingredientList: UpdateIngredientList,
-            instructionItemView: UpdateInstructionItem
-        ) {
-            ingredientList.update(ingredients)
+            ingredientList.showProgress()
         }
     }
 
     data class IngredientSuccessState(
-        private val ingredients: List<IngredientUiState>,
+        val ingredients: List<IngredientUiState.Success>,
     ) : DetailUiState {
         override fun update(
             likeButton: UpdateLike,
             headerTextView: UpdateText,
             imageView: UpdateImage,
             ingredientList: UpdateIngredientList,
-            instructionItemView: UpdateInstructionItem
+            instructionList: UpdateInstructionList
         ) {
             ingredientList.update(ingredients)
+        }
+    }
+
+    object IngredientErrorState : DetailUiState {
+        override fun update(
+            likeButton: UpdateLike,
+            headerTextView: UpdateText,
+            imageView: UpdateImage,
+            ingredientList: UpdateIngredientList,
+            instructionList: UpdateInstructionList
+        ) {
+            ingredientList.showError()
         }
     }
 
@@ -80,9 +78,10 @@ interface DetailUiState : Serializable {
             headerTextView: UpdateText,
             imageView: UpdateImage,
             ingredientList: UpdateIngredientList,
-            instructionItemView: UpdateInstructionItem
+            instructionList: UpdateInstructionList
         ) {
             likeButton.update(isLiked = true)
+            LikeToggleUiState.Liked.applyTo(likeButton)
         }
     }
 
@@ -92,9 +91,12 @@ interface DetailUiState : Serializable {
             headerTextView: UpdateText,
             imageView: UpdateImage,
             ingredientList: UpdateIngredientList,
-            instructionItemView: UpdateInstructionItem
+            instructionList: UpdateInstructionList
         ) {
             likeButton.update(isLiked = false)
+            LikeToggleUiState.UnLiked.applyTo(likeButton)
         }
     }
+
+    object Leave : DetailUiState
 }
