@@ -1,7 +1,7 @@
 package com.example.recipebook.favorite
 
-import com.example.recipebook.detail.core.FakeRunAsync
-import com.example.recipebook.detail.core.FakeUiObservable
+import com.example.recipebook.core.FakeRunAsync
+import com.example.recipebook.core.FakeUiObservable
 import com.example.recipebook.detail.data.Recipe
 import com.example.recipebook.favorite.data.FavoriteRepository
 import com.example.recipebook.favorite.presentation.FavoriteUiObservable

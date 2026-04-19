@@ -1,9 +1,7 @@
-package com.example.recipebook.detail.detail
+package com.example.recipebook.detail
 
-import com.example.recipebook.detail.DetailUiState
-import com.example.recipebook.detail.IngredientUiState
-import com.example.recipebook.detail.core.FakeRunAsync
-import com.example.recipebook.detail.core.FakeUiObservable
+import com.example.recipebook.core.FakeRunAsync
+import com.example.recipebook.core.FakeUiObservable
 import com.example.recipebook.detail.data.DetailRepository
 import com.example.recipebook.detail.data.Ingredient
 import com.example.recipebook.detail.data.Recipe
