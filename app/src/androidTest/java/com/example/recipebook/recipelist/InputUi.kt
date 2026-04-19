@@ -3,7 +3,7 @@ package com.example.recipebook.recipelist
 import android.view.KeyEvent
 import android.view.View
 import android.widget.AutoCompleteTextView
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
@@ -27,7 +27,6 @@ import com.example.recipebook.recipelist.matchers.GreaterOrEqualLengthMatcher
 import com.example.recipebook.recipelist.matchers.HasNoEndIconMatcher
 import com.example.recipebook.recipelist.matchers.HasVisibleEndIconMatcher
 import com.example.recipebook.recipelist.matchers.LessThanLengthMatcher
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -35,28 +34,28 @@ import org.hamcrest.Matchers.anything
 import org.hamcrest.Matchers.not
 
 class InputUi(
-    containerIdMatcher: Matcher<View> = withParent(withId(R.id.inputView)),
-    classTypeMatcher: Matcher<View> = withParent(isAssignableFrom(FrameLayout::class.java))
+    containerIdMatcher: Matcher<View> = withParent(withId(R.id.favoriteAndSearchContainer)),
+    classTypeMatcher: Matcher<View> = withParent(isAssignableFrom(LinearLayout::class.java))
 ) : AbstractButton(
     interaction = onView(
         allOf(
             containerIdMatcher,
             classTypeMatcher,
-            withId(R.id.inputLayout),
+            withId(R.id.searchLayout),
             isAssignableFrom(TextInputLayout::class.java)
         )
     )
 ) {
     private val inputInteraction: ViewInteraction = onView(
         allOf(
-            withId(R.id.inputEditText),
-            isAssignableFrom(TextInputEditText::class.java)
+            withId(R.id.searchLayout),
+            isAssignableFrom(TextInputLayout::class.java)
         )
     )
 
     private val autoCompleteInteraction: ViewInteraction = onView(
         allOf(
-            withId(R.id.inputEditText),
+            withId(R.id.searchInput),
             isAssignableFrom(AutoCompleteTextView::class.java)
         )
     )
