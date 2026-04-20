@@ -1,5 +1,7 @@
 package com.example.recipebook.detail
 
+import com.example.recipebook.core.LikeToggleUiState
+import com.example.recipebook.core.UpdateLike
 import java.io.Serializable
 
 interface DetailUiState : Serializable {
