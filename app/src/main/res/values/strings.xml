@@ -11,4 +11,7 @@
     <string name="internet_connection_failed">Internet connection failed</string>
     <string name="loading_title">Loading recipes</string>
     <string name="loading_body">Please wait</string>
+    <string name="unknown_backend_exception">Unknown backend exception</string>
+    <string name="unknown_local_db_exception">Unknown local DB exception</string>
+    <string name="service_unavailable">service unavailable</string>
 </resources>
