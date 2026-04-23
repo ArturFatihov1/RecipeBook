@@ -1,5 +1,6 @@
 package com.example.recipebook.favorite
 
+import com.example.recipebook.detail.data.Recipe
 import java.io.Serializable
 
 interface FavoriteUiState : Serializable {
@@ -20,7 +21,7 @@ interface FavoriteUiState : Serializable {
     }
 
     data class FavoriteState(
-        private val favorites: List<FavoriteRecipe>
+        private val favorites: List<Recipe>
     ) : FavoriteUiState {
         override fun update(
             favoriteList: UpdateFavoriteList,
