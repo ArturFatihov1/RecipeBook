@@ -1,6 +1,6 @@
 package com.example.recipebook.favorite.presentation
 
-import com.example.recipebook.detail.core.RunAsync
+import com.example.recipebook.core.RunAsync
 import com.example.recipebook.detail.data.Recipe
 import com.example.recipebook.favorite.FavoriteUiState
 import com.example.recipebook.favorite.data.FavoriteRepository
