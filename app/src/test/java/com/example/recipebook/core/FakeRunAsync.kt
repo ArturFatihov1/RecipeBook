@@ -1,6 +1,5 @@
-package com.example.recipebook.detail.core
+package com.example.recipebook.core
 
-import com.example.recipebook.core.RunAsync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 

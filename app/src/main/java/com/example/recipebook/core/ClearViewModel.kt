@@ -1,5 +1,5 @@
 package com.example.recipebook.core
 
 interface ClearViewModel {
-    fun clear(viewModelClass: Class<out MyViewModel<*>>)
+    fun clear(viewModelClass: Class<out BaseViewModel<*>>)
 }

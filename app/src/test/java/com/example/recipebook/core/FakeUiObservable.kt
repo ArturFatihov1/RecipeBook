@@ -1,6 +1,4 @@
-package com.example.recipebook.detail.core
-
-import com.example.recipebook.core.UiObservable
+package com.example.recipebook.core
 
 interface FakeUiObservable<T : Any> : UiObservable<T> {
     var registerCalledCount: Int
