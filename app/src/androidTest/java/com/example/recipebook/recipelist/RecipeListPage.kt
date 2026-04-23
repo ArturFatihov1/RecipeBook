@@ -26,15 +26,9 @@ class RecipeListPage(
         classTypeMatcher = classTypeMatcher,
     )
 
-    private val loadingDialogUi = LoadingDialogUi(
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
-    )
+    private val loadingDialogUi = LoadingDialogUi()
 
-    private val errorDialogUi = ErrorDialogUi(
-        containerIdMatcher = containerIdMatcher,
-        classTypeMatcher = classTypeMatcher
-    )
+    private val errorDialogUi = ErrorDialogUi()
 
     fun addRecipes(newRecipes: List<Recipe>) {
         recipeListUi.addRecipes(newRecipes)

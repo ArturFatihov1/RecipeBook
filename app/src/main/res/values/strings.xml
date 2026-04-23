@@ -5,4 +5,10 @@
     <string name="empty_favorites">No favorite recipes yet</string>
     <string name="liked_recipes">Liked Recipes</string>
     <string name="recipe_info">%d ingredients - %d min</string>
+    <string name="enter_recipe">Enter the recipe</string>
+    <string name="ok">OK</string>
+    <string name="error_title">Loading error</string>
+    <string name="internet_connection_failed">Internet connection failed</string>
+    <string name="loading_title">Loading recipes</string>
+    <string name="loading_body">Please wait</string>
 </resources>

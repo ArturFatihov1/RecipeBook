@@ -1,7 +1,5 @@
 package com.example.recipebook.detail.data
 
-import java.io.Serializable
-
 data class Recipe(
     val id: String,
     val title: String,
