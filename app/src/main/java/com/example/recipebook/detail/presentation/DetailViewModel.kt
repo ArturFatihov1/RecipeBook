@@ -17,9 +17,13 @@ class DetailViewModel(
 ) {
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var isLiked: Boolean = false
 
-    private val uiUpdate: (DetailUiState) -> Unit = {
-        uiObservable.postUiState(it)
+    private val uiUpdate: (DetailUiState) -> Unit = { state ->
+        if (state is DetailUiState.Initial) {
+            isLiked = state.isLiked
+        }
+        uiObservable.postUiState(state)
     }
 
     fun init(id: Int) {
@@ -64,17 +68,17 @@ class DetailViewModel(
         )
     }
 
-    fun like(id: Int) {
+    fun toggleLike(id: Int) {
         runAsync.handleAsync(viewModelScope, {
-            repository.likeRecipe(id)
-            DetailUiState.RecipeLikeState
-        }, uiUpdate)
-    }
-
-    fun unLike(id: Int) {
-        runAsync.handleAsync(viewModelScope, {
-            repository.unLikeRecipe(id)
-            DetailUiState.RecipeUnLikeState
+            if (isLiked) {
+                repository.unLikeRecipe(id)
+                isLiked = false
+                DetailUiState.RecipeUnLikeState
+            } else {
+                repository.likeRecipe(id)
+                isLiked = true
+                DetailUiState.RecipeLikeState
+            }
         }, uiUpdate)
     }
 
