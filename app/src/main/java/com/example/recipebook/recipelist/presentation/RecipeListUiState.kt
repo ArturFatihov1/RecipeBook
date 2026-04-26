@@ -6,6 +6,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.recipebook.R
 import com.example.recipebook.core.HandleErrorState
 import com.example.recipebook.recipelist.data.RecipeWithSettings
+import com.example.recipebook.recipelist.presentation.navigation.NavigateToDetail
+import com.example.recipebook.recipelist.presentation.navigation.NavigateToFavorite
 import com.example.recipebook.recipelist.presentation.search.SearchUiState
 import com.example.recipebook.recipelist.presentation.search.UpdateSearch
 
