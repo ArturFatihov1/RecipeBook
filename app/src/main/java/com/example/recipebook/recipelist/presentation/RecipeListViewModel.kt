@@ -2,6 +2,8 @@ package com.example.recipebook.recipelist.presentation
 
 import com.example.recipebook.core.BaseViewModel
 import com.example.recipebook.core.ClearViewModel
+import com.example.recipebook.core.HandleError
+import com.example.recipebook.core.HandleErrorState
 import com.example.recipebook.core.RunAsync
 import com.example.recipebook.recipelist.data.RecipeListRepository
 
@@ -13,11 +15,11 @@ class RecipeListViewModel(
     private val clearViewModel: ClearViewModel,
 ) : BaseViewModel.Async<RecipeListUiState>(observable, runAsync), RecipeActionListener {
 
-    fun load() {
+    fun load(query: String = "") {
         observable.postUiState(RecipeListUiState.LoadingState)
         runAsync({
             try {
-                val recipes = repository.load()
+                val recipes = repository.load(searchQuery = query, amountRecipes = Core.AMOUNT_RECIPES)
                 RecipeListUiState.RecipeListState(recipes = recipes)
             } catch (e: Exception) {
                 val error = handleError.handle(e)
@@ -27,6 +29,14 @@ class RecipeListViewModel(
     }
 
     fun handleUserInput(input: String) {
+        if (input.length >= 3) {
+            observable.postUiState(RecipeListUiState.RefreshState)
+        } else {
+            observable.postUiState(RecipeListUiState.InputInsufficientFocusedState)
+        }
+    }
+
+    fun searchVariants(input: String) {
         runAsync({
             RecipeListUiState.InputSufficientFocusedState(variants = repository.searchRecipes(searchQuery = input))
         }, updateUi)
