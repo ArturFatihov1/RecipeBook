@@ -1,23 +1,33 @@
 package com.example.recipebook.recipelist.presentation
 
-import android.widget.AutoCompleteTextView
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.recipebook.R
 import com.example.recipebook.core.HandleErrorState
 import com.example.recipebook.recipelist.data.RecipeWithSettings
+import com.example.recipebook.recipelist.presentation.search.SearchUiState
+import com.example.recipebook.recipelist.presentation.search.UpdateSearch
 
 interface RecipeListUiState {
 
     fun update(
-        searchInput: AutoCompleteTextView,
+        searchInput: UpdateSearch,
         recipeListAdapter: RecipeListAdapter,
         swipeRefresh: SwipeRefreshLayout,
-        progressDialog: AlertDialog,
-        errorDialog: AlertDialog,
+        progressDialog: DialogFragment,
+        errorDialog: DialogFragment,
     ) = Unit
 
     fun navigate(navigate: NavigateToFavorite) = Unit
     fun navigate(navigate: NavigateToDetail) = Unit
+    fun showDialog(fragmentManager: FragmentManager, dialog: DialogFragment) = Unit
+
+    abstract class AbstractDialogUiState(private val dialogTag: String) : RecipeListUiState {
+        override fun showDialog(fragmentManager: FragmentManager, dialog: DialogFragment) {
+            dialog.show(fragmentManager, dialogTag)
+        }
+    }
 
     object Favorites : RecipeListUiState {
         override fun navigate(navigate: NavigateToFavorite) {
@@ -34,12 +44,13 @@ interface RecipeListUiState {
     data class RecipeListState(
         private val recipes: List<RecipeWithSettings>
     ) : RecipeListUiState {
+
         override fun update(
-            searchInput: AutoCompleteTextView,
+            searchInput: UpdateSearch,
             recipeListAdapter: RecipeListAdapter,
             swipeRefresh: SwipeRefreshLayout,
-            progressDialog: AlertDialog,
-            errorDialog: AlertDialog
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment,
         ) {
             errorDialog.dismiss()
             progressDialog.dismiss()
@@ -52,15 +63,38 @@ interface RecipeListUiState {
         private val variants: List<String>
     ) : RecipeListUiState {
 
+        override fun update(
+            searchInput: UpdateSearch,
+            recipeListAdapter: RecipeListAdapter,
+            swipeRefresh: SwipeRefreshLayout,
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment
+        ) {
+            searchInput.update(SearchUiState.Sufficient(variants))
+        }
+    }
+
+    object InputInsufficientFocusedState : RecipeListUiState {
+
+        override fun update(
+            searchInput: UpdateSearch,
+            recipeListAdapter: RecipeListAdapter,
+            swipeRefresh: SwipeRefreshLayout,
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment
+        ) {
+            searchInput.update(SearchUiState.Insufficient)
+        }
     }
 
     object RefreshState : RecipeListUiState {
+
         override fun update(
-            searchInput: AutoCompleteTextView,
+            searchInput: UpdateSearch,
             recipeListAdapter: RecipeListAdapter,
             swipeRefresh: SwipeRefreshLayout,
-            progressDialog: AlertDialog,
-            errorDialog: AlertDialog
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment,
         ) {
             errorDialog.dismiss()
             progressDialog.dismiss()
@@ -69,12 +103,13 @@ interface RecipeListUiState {
     }
 
     object NextPageState : RecipeListUiState {
+
         override fun update(
-            searchInput: AutoCompleteTextView,
+            searchInput: UpdateSearch,
             recipeListAdapter: RecipeListAdapter,
             swipeRefresh: SwipeRefreshLayout,
-            progressDialog: AlertDialog,
-            errorDialog: AlertDialog
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment,
         ) {
             errorDialog.dismiss()
             progressDialog.dismiss()
@@ -82,32 +117,34 @@ interface RecipeListUiState {
         }
     }
 
-    object LoadingState : RecipeListUiState {
+    object LoadingState : AbstractDialogUiState("LoadingDialog") {
+
         override fun update(
-            searchInput: AutoCompleteTextView,
+            searchInput: UpdateSearch,
             recipeListAdapter: RecipeListAdapter,
             swipeRefresh: SwipeRefreshLayout,
-            progressDialog: AlertDialog,
-            errorDialog: AlertDialog
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment,
         ) {
             errorDialog.dismiss()
             swipeRefresh.isRefreshing = false
-            progressDialog.show()
         }
     }
 
-    data class ErrorState(private val error: HandleErrorState) : RecipeListUiState {
+
+    data class ErrorState(
+        private val error: HandleErrorState = HandleErrorState(stringRes = R.string.internet_connection_failed)
+    ) : AbstractDialogUiState("ErrorDialog") {
+
         override fun update(
-            searchInput: AutoCompleteTextView,
+            searchInput: UpdateSearch,
             recipeListAdapter: RecipeListAdapter,
             swipeRefresh: SwipeRefreshLayout,
-            progressDialog: AlertDialog,
-            errorDialog: AlertDialog
+            progressDialog: DialogFragment,
+            errorDialog: DialogFragment,
         ) {
-            errorDialog.setMessage(error.message.ifBlank { progressDialog.context.getString(error.stringRes) })
-            errorDialog.show()
-            swipeRefresh.isRefreshing = false
             progressDialog.dismiss()
+            swipeRefresh.isRefreshing = false
         }
     }
 }
